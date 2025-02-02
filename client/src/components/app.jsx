@@ -6,7 +6,7 @@ function App() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
-  const [currentFriend, setCurrentFriend] = useState({});
+  const [currentFriend, setCurrentFriend] = useState(null);
   const socket = useContext(SocketContext);
   const [sessionUser, setSessionUser] = useState(null);
 
@@ -48,11 +48,11 @@ function App() {
     }
     socket.connect();
 
-    // Handle incoming chat messagescd 
+    // Handle incoming chat messages
     const handleMessage = (msg) => {
       setMessages((prev) => {
         if (!prev.some((m) => m.id === msg.id)) {
-          return [...prev, msg]; // ✅ Prevent duplicates
+          return [...prev, msg]; 
         }
         return prev;
       });
@@ -62,7 +62,6 @@ function App() {
 
     // Cleanup function to remove the event listener
     return () => {
-
       socket.off("chat message");
       socket.off("connect");
       socket.off("disconnect");  // Disconnect socket when the component unmounts
@@ -70,10 +69,14 @@ function App() {
   }, [socket]); // Only re-run the effect if `socket` changes
 
   useEffect(() => {
+    if (!currentFriend?.id) {
+      setMessages([]); 
+      return;
+    }
+
     if (!currentFriend?.id) return;
     const getMessages = async () => {
       try {
-        // Assuming your endpoint uses the friend's id.
         const res = await fetch(`http://localhost:3000/messages/${currentFriend.id}`, {
           credentials: "include",
           method: "GET"
@@ -113,8 +116,7 @@ function App() {
       );
     }
   };
-
-
+  
   return (
     <div className="chat-container">
       <div className="sidebar">

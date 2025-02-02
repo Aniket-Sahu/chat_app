@@ -146,7 +146,7 @@ app.get("/users", async (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
-  
+
   try {
     const result = await pool.query(
       "SELECT id, username FROM users WHERE id != $1",
@@ -206,45 +206,26 @@ io.use((socket, next) => {
 const userSockets = new Map(); // Store userId -> socketId mapping
 
 io.on("connection", async (socket) => {
-  console.log(`🔌 Socket connected: ${socket.id}`);
+  console.log(`Socket connected: ${socket.id}`);
 
-  // Ensure the user is authenticated
   if (!socket.request.isAuthenticated()) {
-    console.log("❌ Unauthorized user attempted connection.");
+    console.log("Unauthorized user attempted connection.");
     socket.disconnect();
     return;
   }
 
   const userId = socket.request.user.id;
   userSockets.set(userId, socket.id); // ✅ Store user socket ID
-  console.log(`✅ User ${userId} connected with socket ID ${socket.id}`);
-
-  // Send chat history to the user
-  try {
-    const result = await pool.query(
-      `SELECT sender_id, receiver_id, text, created_at 
-       FROM messages 
-       WHERE sender_id = $1 OR receiver_id = $1
-       ORDER BY created_at DESC 
-       LIMIT 50`,
-      [userId]
-    );
-    socket.emit("chat history", result.rows.reverse());
-  } catch (error) {
-    console.error("❌ Error fetching chat history:", error);
-  }
 
   // Handle chat messages
   socket.on("chat message", async ({ text, receiverId }, callback) => {
     const userId = socket.request.user.id;
-    console.log("📩 Message received:", { senderId: userId, receiverId, text });
   
     if (!text || !receiverId) {
       return callback("Invalid message format.");
     }
-  
+
     try {
-      // Insert into database
       const newMessage = await pool.query(
         `INSERT INTO messages (sender_id, receiver_id, text) 
          VALUES ($1, $2, $3) RETURNING *`,
@@ -264,16 +245,15 @@ io.on("connection", async (socket) => {
   
       callback();
     } catch (error) {
-      console.error("❌ Error saving message:", error);
+      console.error("Error saving message:", error);
       callback("Error sending message.");
     }
   });
-  
 
   // Handle disconnection
   socket.on("disconnect", () => {
-    console.log(`🔌 User ${userId} disconnected.`);
-    userSockets.delete(userId); // ✅ Remove user from active sockets
+    console.log(`User ${userId} disconnected.`);
+    userSockets.delete(userId);
   });
 });
 
