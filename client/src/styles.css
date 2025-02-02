@@ -1,0 +1,184 @@
+.home-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.home-heading {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.home-buttons button {
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.home-buttons button:hover {
+  background-color: #ddd;
+}
+
+.login-container {
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-heading {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-form button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #0056b3;
+}
+
+.login-error {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Overall layout */
+.chat-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar styling (25% of width) */
+.sidebar {
+  width: 25%;
+  background-color: #f0f0f0;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+}
+
+.user-item {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-item:hover {
+  background-color: #e0e0e0;
+}
+
+.chat-main {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.chat-header {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+/* General styling for messages */
+.chat-message {
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+/* Messages sent by the session user (green, aligned right) */
+.chat-message.self {
+  background-color: #dcf8c6;
+  align-self: flex-end; /* ✅ Moves the message to the right */
+  text-align: right;
+}
+
+/* Messages received from the other user (white, aligned left) */
+.chat-message.friend {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  align-self: flex-start; /* ✅ Moves the message to the left */
+  text-align: left;
+}
+
+.chat-input {
+  border-top: 1px solid #ddd;
+  padding: 0.5rem 0;
+}
+
+.chat-input form {
+  display: flex;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.chat-input button {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chat-input button:disabled {
+  background-color: #a5d6a7;
+}
+
+.logout-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-end;
+}
